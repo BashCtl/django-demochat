@@ -27,10 +27,23 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+AUTH_USER_MODEL = 'account.User'
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer',
+    }
+}
+
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/chat-admin/'
+LOGOUT_REDIRECT_URL = '/'
+
 
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -70,6 +83,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'demochat.wsgi.application'
+ASGI_APPLICATION = 'demochat.asgi.application'
 
 
 # Database

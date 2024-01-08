@@ -3,3 +3,9 @@ __pycache__
 */*/__pycache__
 
 .env
+*.pyc
+*/*.pyc
+*/*/*.pyc
+node_modules
+*.sqlite3
+package-lock.json
