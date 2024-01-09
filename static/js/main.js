@@ -45,7 +45,7 @@ function getCookie(name) {
   return cookieValue;
 }
 
-function joinChatRoom() {
+async function joinChatRoom() {
   console.log("Join Room");
 
   chatName = chatNameElement.value;
@@ -57,7 +57,7 @@ function joinChatRoom() {
   data.append("name", chatName);
   data.append("url", chatWindowUrl);
 
-  fetch(`/api/create-room/${chatRoomUuid}/`, {
+  await fetch(`/api/create-room/${chatRoomUuid}/`, {
     method: "POST",
     headers: {
       "X-CSRFToken": getCookie("csrftoken"),
@@ -70,6 +70,22 @@ function joinChatRoom() {
     .then((data) => {
       console.log("data", data);
     });
+
+  chatSocket = new WebSocket(
+    `ws://${window.location.host}/ws/${chatRoomUuid}/`
+  );
+
+  chatSocket.onmessage = function (e) {
+    console.log("onMessage");
+  };
+
+  chatSocket.onopen = function (e) {
+    console.log("onOpen - chat socket was opened");
+  };
+
+  chatSocket.onclose = function (e) {
+    console.log("onClose - chat socket was closed");
+  };
 }
 
 /**
