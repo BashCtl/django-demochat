@@ -1,0 +1,52 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+    <h1 class="text-2xl">Chat admin</h1>
+
+    {% if perms.user.add_user %}
+       <div class="mt-8">
+        <h2 class="mb-4 text-lg">Users</h2>
+
+        <a href="#" class="inline-block py-2 px-6 bg-rose-600 text-white rounded-xl">Add user</a>
+       </div>
+
+       <div class="mt-6">
+        {% for user in users %}
+            <div class="grid grid-cols-4 gap-4 py-2 {% cycle 'bg-gray-100' '' %}">
+                <p class="px-2">{{ user.name }}</p>
+
+                <p class="px-2">{{ user.email }}</p>
+
+                <p class="px-2">{{ user.get_role_display }}</p>
+
+                <p class="px-2 text-right">
+                    <a href="#" class="underline">Edit</a>
+                </p>
+            </div>
+        {% endfor %}
+       </div>
+    {% endif %}
+    
+    <hr class="my-6">
+
+    <div class="mt-8">
+        <h2 class="mg-4 text-lg">Rooms</h2>
+        <div class="grid grid-cols-4 gap-4">
+            {% for room in rooms %}
+                <div class="p-4 rounded-xl {% if room.status == 'waiting' %}bg-emerald-100{% elif room.status == 'active' %}bg-yellow-100{% else %}bg-gray-100{% endif %}">
+                    <h3 class="mb-4 text-lg">Chat</h3>
+
+                    <p>
+                        <b>ID: </b> {{ room.uuid }}<br>
+                        <b>Name: </b> {{ room.client }}<br>
+                        <b>Status: </b> {{ room.get_status_display }}<br>
+                        <b>Agent: </b> {% firstof room.agent.name 'None yet...' %}
+                    </p>
+
+                    <a href="#" class="mt-4 inline-block py-2 px-6 bg-emerald-800 text-white rounded-xl">Join</a>
+                </div>
+            {% endfor %}
+        </div>        
+    </div>
+
+{% endblock %}
