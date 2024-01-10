@@ -1,6 +1,6 @@
 {% extends 'core/base.html' %}
 
-{% load chatextras %}
+{% load static chatextras %}
 
 {% block content %}
     <h1 class="text-2xl">Room "{{ room.uuid }}"</h1>
@@ -50,5 +50,15 @@
         <button id="chat_message_submit" class="py-2 px-6 bg-rose-600 text-white rounded-xl">Send</button>
     {% endif %}
 
+
+{% endblock %}
+
+{% block scripts %}
+    {% if room.status == 'active' %}
+        {{ room.uuid|json_script:'room_uuid' }}
+        {{ request.user.name|json_script:'user_name' }}
+        {{ request.user.id|json_script:'user_id' }}
+        <script src="{% static 'js/main_admin.js' %}"></script>
+    {% endif %}
 
 {% endblock %}
