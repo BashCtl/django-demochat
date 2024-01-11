@@ -12,7 +12,7 @@
         <b>Started: </b>{{ room.created_at|timesince }} ago <br>
         <b>Status: </b>{{ room.get_status_display }}<br>
         <b>Page: </b>{{ room.url }}<br>
-        <b>Agent: </b>{% firstof room.created_by.name 'Not yet...' %}
+        <b>Agent: </b>{% firstof room.agent.name 'Not yet...' %}
     </p>
 
     <hr class="mb-6">
