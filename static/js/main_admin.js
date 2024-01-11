@@ -20,6 +20,10 @@ const chatSubmitElement = document.querySelector("#chat_message_submit");
  * Functions
  */
 
+function scrollToBottom() {
+  chatLogElement.scrollTop = chatLogElement.scrollHeight;
+}
+
 function sendMessage() {
   chatSocket.send(
     JSON.stringify({
@@ -66,6 +70,8 @@ function onChatMessage(data) {
         </div>`;
     }
   }
+
+  scrollToBottom();
 }
 
 /**
@@ -81,21 +87,27 @@ chatSocket.onmessage = function (e) {
 
 chatSocket.onopen = function (e) {
   console.log("on open");
+  scrollToBottom();
 };
 
 chatSocket.onclose = function (e) {
   console.log("chat socket closed unexpectadly");
 };
 
-
 /**
  * Event listeners
  */
 
 chatSubmitElement.onclick = function (e) {
-    e.preventDefault();
-  
+  e.preventDefault();
+
+  sendMessage();
+
+  return false;
+};
+
+chatInputElement.onkeyup = function (e) {
+  if (e.keyCode === 13) {
     sendMessage();
-  
-    return false;
-  };
+  }
+};
