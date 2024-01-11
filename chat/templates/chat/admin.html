@@ -13,7 +13,7 @@
        <div class="mt-6">
         {% for user in users %}
             <div class="grid grid-cols-4 gap-4 py-2 {% cycle 'bg-gray-100' '' %}">
-                <p class="px-2">{{ user.name }}</p>
+                <p class="px-2"><a href="{% url 'chat:user_detail' user.pk %}">{{ user.name }}</a></p>
 
                 <p class="px-2">{{ user.email }}</p>
 

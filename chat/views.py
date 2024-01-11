@@ -47,12 +47,22 @@ def room(request, uuid):
 
 
 @login_required
+def user_detail(request, uuid):
+    user = User.objects.get(pk=uuid)
+    rooms = user.rooms.all()
+
+    context = {'user': user, 'rooms': rooms}
+
+    return render(request, 'chat/user_detail.html', context)
+
+
+@login_required
 def add_user(request):
     if request.user.has_perm('user.add_user'):
-        
+
         if request.method == 'POST':
             form = AddUserForm(request.POST)
-        
+
             if form.is_valid():
                 user = form.save(commit=False)
                 user.is_staff = True
